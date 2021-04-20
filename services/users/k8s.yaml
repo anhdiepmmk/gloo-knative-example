@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: users
+  name: users
+  namespace: safemoon
+spec:
+  selector:
+    matchLabels:
+      app: users
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+      - image: anhdiepmmk/gloo-users:latest
+        name: users
+        ports:
+        - containerPort: 8081
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users
+  namespace: safemoon
+  labels:
+    service: users
+spec:
+  ports:
+  - port: 8081
+    protocol: TCP
+  selector:
+    app: users

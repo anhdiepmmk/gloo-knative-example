@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: posts
+  name: posts
+  namespace: safemoon
+spec:
+  selector:
+    matchLabels:
+      app: posts
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: posts
+    spec:
+      containers:
+      - image: anhdiepmmk/gloo-posts:latest
+        name: posts
+        ports:
+        - containerPort: 8080
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: posts
+  namespace: safemoon
+  labels:
+    service: posts
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: posts
