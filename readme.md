@@ -80,6 +80,10 @@ curl $(glooctl proxy url)/users/api/v1/users
 ```
 minikube addons enable metallb
 minikube addons configure metallb --profile insane
+
+# test metallb
+kubectl create deployment nginx --image=nginx
+kubectl expose deploy nginx --port 80 --type LoadBalancer
 ```
 
 # Get gateway ip
