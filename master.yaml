@@ -1,55 +1,56 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: posts
-  namespace: safemoon
+  name: echo-v1
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: posts
-  replicas: 1
+      app: echo
+      version: v1
   template:
     metadata:
       labels:
-        app: posts
+        app: echo
+        version: v1
     spec:
       containers:
-        - image: anhdiepmmk/gloo-posts:latest
-          name: posts
+        # Shout out to our friends at Hashi for this useful test server
+        - image: anhdiepmmk/gloo-posts
+          imagePullPolicy: Always
+          name: echo-v1
           ports:
             - containerPort: 8080
-              name: http
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: posts
-  namespace: safemoon
+  name: echo
 spec:
   ports:
     - port: 8080
-      protocol: TCP
       targetPort: 8080
+      protocol: TCP
   selector:
-    app: posts
+    app: echo
 ---
 apiVersion: gloo.solo.io/v1
 kind: Upstream
 metadata:
-  name: posts #safemoon-posts-8080
+  name: echo
   namespace: gloo-system
 spec:
   kube:
     selector:
-      app: posts
-    serviceName: posts
-    serviceNamespace: safemoon
+      app: echo
+    serviceName: echo
+    serviceNamespace: default
     servicePort: 8080
 ---
 apiVersion: gateway.solo.io/v1
 kind: VirtualService
 metadata:
-  name: default
+  name: echo
   namespace: gloo-system
 spec:
   virtualHost:
@@ -57,9 +58,9 @@ spec:
       - "*"
     routes:
       - matchers:
-          - prefix: /posts
+          - prefix: /
         routeAction:
           single:
             upstream:
-              name: posts
+              name: echo
               namespace: gloo-system

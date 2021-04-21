@@ -81,3 +81,8 @@ curl $(glooctl proxy url)/users/api/v1/users
 minikube addons enable metallb
 minikube addons configure metallb --profile insane
 ```
+
+# Get gateway ip
+```
+kubectl get svc --namespace gloo-system gateway-proxy --output=jsonpath="{.status.loadBalancer.ingress[0].ip}"
+```
