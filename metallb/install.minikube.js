@@ -39,8 +39,6 @@ const octets = output.split('.');
 const network = `${octets[0]}.${octets[1]}.${octets[2]}`;
 const iprange = `${network}.100-${network}.105`
 
-return;
-
 // read template file
 let yaml = fs.readFileSync('./k8s-metallb-config.templ', 'utf-8');
 yaml = yaml.replace('{{IP_RANGE}}', iprange);
