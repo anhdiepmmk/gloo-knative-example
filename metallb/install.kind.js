@@ -50,4 +50,4 @@ fs.writeFileSync('./k8s-metallb-config.yaml', yaml);
 console.log(execSync('kubectl apply -f ./k8s-metallb-config.yaml', { encoding: 'utf-8' }));
 
 // remove
-// fs.unlinkSync('./k8s-metallb-config.yaml');
+fs.unlinkSync('./k8s-metallb-config.yaml');
