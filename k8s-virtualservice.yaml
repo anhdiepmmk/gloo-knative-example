@@ -1,25 +1,12 @@
-apiVersion: gloo.solo.io/v1
-kind: Upstream
-metadata:
-  name: safemoon-users-8081
-  namespace: gloo-system
-spec:
-  kube:
-    selector:
-      app: users
-    serviceName: users
-    serviceNamespace: safemoon
-    servicePort: 8081
----
 apiVersion: gateway.solo.io/v1
 kind: VirtualService
 metadata:
-  name: default-2
+  name: default
   namespace: gloo-system
 spec:
   virtualHost:
     domains:
-      - "users.localhost"
+      - "*"
     routes:
       - matchers:
         - prefix: /users/
@@ -29,4 +16,13 @@ spec:
           single:
             upstream:
               name: safemoon-users-8081
+              namespace: gloo-system
+      - matchers:
+        - prefix: /posts/
+        options:
+            prefixRewrite: /
+        routeAction:
+          single:
+            upstream:
+              name: safemoon-posts-8080
               namespace: gloo-system

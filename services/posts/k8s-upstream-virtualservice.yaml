@@ -14,12 +14,12 @@ spec:
 apiVersion: gateway.solo.io/v1
 kind: VirtualService
 metadata:
-  name: default
+  name: default-1
   namespace: gloo-system
 spec:
   virtualHost:
     domains:
-      - "*"
+      - "posts.localhost"
     routes:
       - matchers:
         - prefix: /posts/
