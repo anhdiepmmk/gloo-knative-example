@@ -97,3 +97,8 @@ kubectl expose deploy nginx --port 80 --type LoadBalancer
 ```
 kubectl get svc --namespace gloo-system gateway-proxy --output=jsonpath="{.status.loadBalancer.ingress[0].ip}"
 ```
+
+# Install ingress
+```
+helm install ingress-nginx ingress-nginx/ingress-nginx
+```
