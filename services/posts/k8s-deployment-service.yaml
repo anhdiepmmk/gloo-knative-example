@@ -32,21 +32,3 @@ spec:
       targetPort: 8080
   selector:
     app: posts
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: posts-ingress
-  namespace: safemoon
-spec:
-  rules:
-  - host: foo.bar.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: posts
-            port:
-              number: 8080
