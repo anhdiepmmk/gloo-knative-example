@@ -1,5 +1,7 @@
 # Install nginx ingress from nginxinc (https://github.com/nginxinc/kubernetes-ingress/)
 ```
+helm repo add nginx-stable https://helm.nginx.com/stable
+helm repo update  
 helm install my nginx-stable/nginx-ingress
 ```
 
